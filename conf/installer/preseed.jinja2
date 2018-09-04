@@ -1,0 +1,118 @@
+Content-Type: text/plain
+
+# Localization
+{% set language, country = node.locale.split('_') %}
+d-i debian-installer/locale         string      {{ node.locale }}.UTF-8
+d-i debian-installer/language       string      {{ language }}
+d-i debian-installer/country        string      {{ country }}
+d-i localechooser/supported-locales multiselect {{ node.locale }}.UTF-8
+
+# Keyboard selection
+d-i keyboard-configuration/xkb-keymap select    {{ node.keymap }}
+
+### Apt setup
+apt-setup-udeb   apt-setup/services-select multiselect none
+apt-mirror-setup apt-setup/contrib         boolean     true
+apt-mirror-setup apt-setup/no_mirror       boolean     false
+apt-mirror-setup apt-setup/non-free        boolean     true
+apt-mirror-setup apt-setup/use_mirror      boolean     true
+
+### Mirror settings
+d-i mirror/protocol                        select      http
+d-i mirror/country                         string      manual
+d-i mirror/http/hostname                   string      {{ mirror.hostname }}
+d-i mirror/http/directory                  string      {{ mirror.directory }}
+d-i mirror/http/proxy                      string      {{ mirror.proxy }}
+d-i mirror/suite                           string      {{ mirror.suite }}
+d-i debian-installer/allow_unauthenticated boolean     {{ mirror.unauthenticated|lower }}
+
+### Network configuration
+d-i netcfg/enable                          boolean     'true'
+d-i netcfg/choose_interface                select      'auto'
+d-i netcfg/use_autoconfig                  boolean     'true'
+d-i netcfg/no_default_route                boolean     'true'
+d-i netcfg/get_domain                      string      {{ node.domain }}
+
+# VIP addresses of the generic service nodes on the administration network
+d-i netcfg/get_nameservers                 string      {{ node.nameservers|join(' ') }}
+d-i netcfg/dhcp_failed                     note
+d-i netcfg/dhcp_options                    select Configure network manually
+d-i netcfg/dhcp_timeout                    string      25
+d-i netcfg/dhcpv6_timeout                  string      3
+
+# Hardware detect
+d-i hw-detect/start_pcmcia                 boolean     false
+d-i hw-detect/load_firmware                boolean     true
+
+### Partitioning
+d-i partman/early_command                                        string env -u http_proxy wget http://{{node.diskinstall_server}}/cgi-bin/scibian-hpc-netboot/partitioner.py?node={{ node.node }} -O /partition-schema; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+d-i partman-auto/method                                          string     lvm
+d-i partman-partitioning/choose_label                            select     gpt
+d-i partman-partitioning/confirm_write_new_label                 boolean    true
+d-i partman-auto/expert_recipe_file                              string     /partition-schema
+partman-basicfilesystems partman-basicfilesystems/no_mount_point boolean    false
+d-i partman-lvm/device_remove_lvm                                boolean    true
+d-i partman-auto/purge_lvm_from_device                           boolean    true
+d-i partman-md/device_remove_md                                  boolean    true
+d-i partman-md/confirm_nochanges                                 boolean    true
+d-i partman-lvm/confirm                                          boolean    true
+d-i partman-lvm/confirm_nooverwrite                              boolean    true
+d-i partman-auto/choose_recipe                                   select     multiraid
+d-i partman-md/confirm                                           boolean    true
+d-i partman-md/confirm_nooverwrite                               boolean    true
+d-i partman/confirm_write_new_label                              boolean    true
+d-i partman/confirm_nooverwrite                                  boolean    true
+d-i partman/choose_partition                                     select     finish
+d-i partman/confirm                                              boolean    true
+
+### Boot loader
+grub-installer grub-installer/only_debian    boolean    true
+grub-installer grub-installer/bootdev        string     default
+grub-installer grub-installer/skip           boolean    false
+grub-installer grub-installer/multipath      boolean    true
+grub-installer grub-installer/with_other_os  boolean    false
+grub-installer grub-installer/make_active    boolean    true
+
+# Don't create a normal user account.
+user-setup-udeb passwd/make-user             boolean    false
+user-setup-udeb passwd/root-login            boolean    true
+user-setup-udeb passwd/shadow                boolean    true
+
+### Clock and time zone setup
+clock-setup clock-setup/utc                  boolean    true
+clock-setup clock-setup/system-time-changed  boolean    false
+clock-setup clock-setup/hwclock-wait         boolean    false
+clock-setup clock-setup/ntp                  boolean    false
+tzsetup-udeb time/zone                       select     GMT
+
+### Base system installation
+bootstrap-base base-installer/kernel/image                  select   linux-image-amd64
+bootstrap-base base-installer/initramfs-tools/driver-policy select   dep
+base-installer base-installer/install-recommends            boolean  false
+
+### Package selection
+tasksel tasksel/first multiselect  standard, ssh-server
+d-i pkgsel/include    string       {{ pkgs.include|join(' ') }}
+
+# Additional repositories, local[0-9] available
+{% for repo in pkgs.repos %}
+d-i apt-setup/local{{loop.index0}}/repository string {{repo}}
+{% endfor %}
+d-i pkgsel/upgrade              select  full-upgrade
+
+# Other packages ##
+d-i popularity-contest/participate                       boolean    false
+console-setup console-setup/charmap47                    select     UTF-8
+console-setup console-setup/codesetcode                  string     Lat15
+console-setup console-setup/store_defaults_in_debconf_db boolean    true
+console-setup console-setup/fontsize-fb47                select     8x16
+console-setup console-setup/fontsize                     string     8x16
+
+### Late command ###
+d-i preseed/late_command string env -u http_proxy wget http://{{node.diskinstall_server}}/disk/hpc-config.conf -O /target/etc/hpc-config.conf; /bin/in-target /usr/bin/env -u http_proxy hpc-config-apply -vvv;
+
+# Root password, either in clear text
+d-i passwd/root-password-crypted      password {{ passwords.root }}
+
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note

@@ -1,0 +1,2 @@
+conf/menu etc/scibian-hpc-netboot
+scripts/bootmenu.py var/www/cgi-bin/scibian-hpc-netboot

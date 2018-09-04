@@ -1,0 +1,15 @@
+---
+mirror:
+  hostname:        deb.debian.org
+  directory:       debian/
+  proxy:           http://apt.service.virtual:3142
+  unauthenticated: false
+  suite:           stretch
+pkgs:
+  include:
+    - apt-transport-https
+    - scibian-archive-keyring
+    - hpc-config-apply
+  repos: []
+passwords:
+  root: CHANGEME

@@ -1,0 +1,39 @@
+Source: scibian-hpc-netboot
+Section: scibian
+Priority: optional
+Maintainer: Scibian Project <packaging@scibian.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Vcs-Git: https://github.com/scibian/scibian-hpc-netboot.git
+Vcs-Browser: https://github.com/scibian/scibian-hpc-netboot
+
+Package: scibian-hpc-netboot-common
+Architecture: all
+Description: Common files for netbooting Scibian HPC clusters nodes
+ This package provides library and common configuration files for netbooting
+ Scibian HPC clusters nodes.
+Depends:
+ ${misc:Depends},
+ apache2,
+ clustershell,
+ python-jinja2,
+ python-yaml,
+
+Package: scibian-hpc-netboot-menu
+Architecture: all
+Description: iPXE bootmenu generator for Scibian HPC clusters
+ This package provides a Python CGI script to generate dynamic iPXE bootmenu
+ based on a nodename in parameter and menu entries in a YAML file.
+Depends:
+ ${misc:Depends},
+ scibian-hpc-netboot-common (= ${source:Version}),
+
+Package: scibian-hpc-netboot-preseedator
+Architecture: all
+Description: d-i preseed generator for Scibian HPC clusters
+ This package provides Python CGI scripts to generate a debian-intasller preseed
+ for Scibian HPC cluster nodes and a specialized partition schema, based on the
+ nodename provided in parameter and a cYAML configuration file.
+Depends:
+ ${misc:Depends},
+ scibian-hpc-netboot-common (= ${source:Version}),

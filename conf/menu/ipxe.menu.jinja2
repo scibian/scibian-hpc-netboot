@@ -1,0 +1,30 @@
+Content-Type: text/plain
+
+#!ipxe
+#####################################################################
+# IPXE Linux menu specification
+#####################################################################
+set esc:hex 1b            # ANSI escape character - ^[
+set cls ${esc:string}[2J  # ANSI clear screen sequence - ^[[2J
+
+menu Please choose an operating system to boot
+echo ${cls}
+
+{% for entry in entries %}
+item {{ entry.name }} {{ entry.label }}
+{% endfor %}
+
+choose --default {{ default_entry }} --timeout 3000 target && goto ${target}
+
+{% for entry in entries %}
+
+:{{ entry.name }}
+set base-url {{ entry.base_url }}
+initrd {{ entry.initrd_url }}
+kernel {{ entry.kernel_url }} {{ entry.opts }}
+boot || goto failed
+goto start
+{% endfor %}
+
+:local
+exit

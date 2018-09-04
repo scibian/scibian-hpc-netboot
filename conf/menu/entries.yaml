@@ -1,0 +1,68 @@
+---
+scibian9:
+  ram:
+    main:
+      label:  Run {{ os }} in RAM
+      initrd: initrd-4.9.0-8-amd64
+      kernel: vmlinuz-4.9.0-8-amd64
+      opts:   >
+        initrd={{ initrd }}
+        console={{ console }}
+        ethdevice={{ boot_dev }}
+        ethdevice-timeout={{ dhcp_timeout }}
+        cowsize={{ cowsize }}
+        transparent_hugepage=always
+        disk-format={{ disk_format }}
+        disk-raid={{ disk_raid }}
+        boot=live
+        union=overlay
+        fetch=${base-url}/{{ os }}.squashfs.torrent
+        {{ kernel_opts }}
+    discovery:
+      label:  Discover/Rescue system
+      initrd: initrd-4.9.0-8-amd64
+      kernel: vmlinuz-4.9.0-8-amd64
+      opts:   >
+        initrd={{ initrd }}
+        console={{ console }}
+        boot=discovery
+        interface={{ bootdev }}
+  disk:
+    main:
+      label:  Install {{ os }}
+      dir:    debian-installer/amd64
+      initrd: initrd.gz
+      kernel: linux
+      opts:   >
+        initrd={{ initrd }}
+        url=http://{{ diskinstall_server }}/cgi-bin/scibian-hpc-netboot/preseedator.py?node=${hostname}
+        console={{ console }}
+        auto
+        interface={{ boot_dev }}
+        locale={{ locale }}
+        console-keymaps-at/keymap={{ keymap }}
+        keyboard-configuration/xkb-keymap={{ keymap }}
+        languagechooser/language-name={{ language }}
+        netcfg/get_domain={{ domain }}
+        netcfg/get_nameservers="{{ nameservers|join(' ') }}"
+        netcfg/no_default_route=true
+        debian-installer/add-kernel-opts=console={{ console }}
+        priority=critical
+        scibian-installer
+    rescue:
+      label:  Rescue {{ os }}
+      dir:    debian-installer/amd64
+      initrd: initrd.gz
+      kernel: linux
+      opts:   >
+        initrd={{ initrd }}
+        console={{ console }}
+        rescue/enable=true
+        interface={{ boot_dev }}
+        locale={{ locale }}
+        console-keymaps-at/keymap={{ keymap }}
+        keyboard-configuration/xkb-keymap={{ keymap }}
+        languagechooser/language-name={{ language }}
+        netcfg/get_domain={{ domain }}
+        netcfg/get_nameservers="{{ nameservers|join(' ') }}"
+        netcfg/no_default_route=true

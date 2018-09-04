@@ -1,0 +1,2 @@
+conf/boot-params.yaml etc/scibian-hpc-netboot
+lib/*.py usr/share/scibian-hpc-netboot

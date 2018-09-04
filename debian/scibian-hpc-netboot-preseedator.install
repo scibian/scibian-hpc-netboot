@@ -1,0 +1,3 @@
+conf/installer etc/scibian-hpc-netboot
+scripts/preseedator.py var/www/cgi-bin/scibian-hpc-netboot
+scripts/partitioner.py var/www/cgi-bin/scibian-hpc-netboot

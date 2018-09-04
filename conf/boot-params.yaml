@@ -1,0 +1,19 @@
+---
+defaults:
+  domain: hpc.example.com
+  prefix: fb
+  kernel_opts: persistence formatcow nosmap
+  cowsize: 2G
+  dhcp_timeout: 120
+  diskinstall_server: web-boot.service.virtual:3138
+  diskless_server: 127.0.0.1:3137
+  nameservers:
+    - 127.0.0.1
+  os: scibian9
+  media: disk
+  version: main
+  boot_dev: eno0
+  console: ttyS1,115200n8
+  locale: en_US
+  language: English
+  keymap: en
