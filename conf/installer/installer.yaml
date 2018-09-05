@@ -4,7 +4,6 @@ mirror:
   directory:       debian/
   proxy:           http://apt.service.virtual:3142
   unauthenticated: false
-  suite:           stretch
 pkgs:
   include:
     - apt-transport-https

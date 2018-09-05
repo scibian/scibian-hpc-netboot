@@ -1,7 +1,18 @@
 Content-Type: text/plain
 
 # Localization
-{% set language, country = node.locale.split('_') %}
+{%
+  set language, country = node.locale.split('_')
+%}
+{# Mapping of scibian releases and debian suites.
+   calibre is old name of scibian with calibre n+1 == scibian n #}
+{%
+  set suites = {
+    'calibre9': 'jessie',
+    'scibian8': 'jessie',
+    'scibian9': 'stretch',
+  }
+%}
 d-i debian-installer/locale         string      {{ node.locale }}.UTF-8
 d-i debian-installer/language       string      {{ language }}
 d-i debian-installer/country        string      {{ country }}
@@ -23,7 +34,7 @@ d-i mirror/country                         string      manual
 d-i mirror/http/hostname                   string      {{ mirror.hostname }}
 d-i mirror/http/directory                  string      {{ mirror.directory }}
 d-i mirror/http/proxy                      string      {{ mirror.proxy }}
-d-i mirror/suite                           string      {{ mirror.suite }}
+d-i mirror/suite                           string      {{ suites[node.os] }}
 d-i debian-installer/allow_unauthenticated boolean     {{ mirror.unauthenticated|lower }}
 
 ### Network configuration
