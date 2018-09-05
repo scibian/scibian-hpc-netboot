@@ -26,6 +26,7 @@ import cgi
 import sys
 import os
 import re
+import glob
 from jinja2 import Template, Environment, FileSystemLoader
 
 
@@ -78,6 +79,10 @@ class MenuEntry(object):
     def __repr__(self):
 
         return self.name
+
+    def __eq__(self, other):
+
+        return self.name == other.name
 
     @property
     def base_url(self):
@@ -195,14 +200,23 @@ class NetbootAppMenu(NetbootAppGeneric):
     def read_conf(self):
         super(NetbootAppMenu, self).read_conf()
 
-        y_entries = yaml.load(open('/etc/scibian-hpc-netboot/menu/entries.yaml'))
+        entries_files = glob.glob('/etc/scibian-hpc-netboot/menu/entries.d/*.yaml')
 
-        for os, medias in y_entries.iteritems():
-            for media, versions in medias.iteritems():
-                for version, entry_fields in versions.iteritems():
-                    entry = MenuEntry(self, os, media, version)
-                    entry.fill(entry_fields)
-                    self.entries.append(entry)
+        for entries_file in entries_files:
+            y_entries = yaml.load(open(entries_file))
+            for os, medias in y_entries.iteritems():
+                for media, versions in medias.iteritems():
+                    for version, entry_fields in versions.iteritems():
+                        entry = MenuEntry(self, os, media, version)
+                        entry.fill(entry_fields)
+                        # if the entry was already declared (w/ same name),
+                        # remove previous declaration to override it with newer
+                        # one.
+                        if entry in self.entries:
+                            self.logger.debug("overriding declaration of entry %",
+                                              entry)
+                            self.entries.remove(entry)
+                        self.entries.append(entry)
 
     def render(self):
 
