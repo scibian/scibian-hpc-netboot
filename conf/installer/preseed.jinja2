@@ -106,7 +106,7 @@ tasksel tasksel/first multiselect  standard, ssh-server
 d-i pkgsel/include    string       {{ pkgs.include|join(' ') }}
 
 # Additional repositories, local[0-9] available
-{% for repo in pkgs.repos %}
+{% for repo in pkgs.repos[node.os] %}
 d-i apt-setup/local{{loop.index0}}/repository string {{repo}}
 {% endfor %}
 d-i pkgsel/upgrade              select  full-upgrade

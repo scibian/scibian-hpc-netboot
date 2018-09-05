@@ -9,6 +9,10 @@ pkgs:
     - apt-transport-https
     - scibian-archive-keyring
     - hpc-config-apply
-  repos: []
+  repos:
+    scibian9:
+      - http://scibian.org/repo scibian9 main contrib non-free
+    scibian8:
+      - http://scibian.org/repo scibian8 main contrib non-free
 passwords:
   root: CHANGEME
