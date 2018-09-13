@@ -60,6 +60,8 @@ d-i partman/early_command                                        string env -u h
 d-i partman-auto/method                                          string     lvm
 d-i partman-partitioning/choose_label                            select     gpt
 d-i partman-partitioning/confirm_write_new_label                 boolean    true
+# When in UEFI mode, ignore possible systems installed in BIOS/Legacy mode
+d-i partman-efi/non_efi_system                                   boolean    true
 d-i partman-auto/expert_recipe_file                              string     /partition-schema
 partman-basicfilesystems partman-basicfilesystems/no_mount_point boolean    false
 d-i partman-lvm/device_remove_lvm                                boolean    true
