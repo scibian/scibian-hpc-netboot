@@ -56,7 +56,11 @@ d-i hw-detect/start_pcmcia                 boolean     false
 d-i hw-detect/load_firmware                boolean     true
 
 ### Partitioning
-d-i partman/early_command                                        string env -u http_proxy wget http://{{node.diskinstall_server}}/cgi-bin/scibian-hpc-netboot/partitioner.py?node={{ node.node }} -O /partition-schema; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+d-i partman/early_command                                        string env -u http_proxy wget http://{{node.diskinstall_server}}/cgi-bin/scibian-hpc-netboot/partitioner.py?node={{ node.node }} -O /partition-schema{% if node.part_disks == 'auto' %}; debconf-set partman-auto/disk "$(list-devices disk | head -n1)"{% endif %}
+
+{% if node.part_disks != 'auto' %}
+d-i partman-auto/disk                                            string     {{ node.part_disks|join(' ') }}
+{% endif %}
 d-i partman-auto/method                                          string     lvm
 d-i partman-partitioning/choose_label                            select     gpt
 d-i partman-partitioning/confirm_write_new_label                 boolean    true

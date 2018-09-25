@@ -17,3 +17,4 @@ defaults:
   locale: en_US
   language: English
   keymap: en
+  part_disks: auto
