@@ -18,3 +18,4 @@ defaults:
   language: English
   keymap: en
   part_disks: auto
+  part_method: lvm

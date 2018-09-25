@@ -61,7 +61,11 @@ d-i partman/early_command                                        string env -u h
 {% if node.part_disks != 'auto' %}
 d-i partman-auto/disk                                            string     {{ node.part_disks|join(' ') }}
 {% endif %}
-d-i partman-auto/method                                          string     lvm
+d-i partman-auto/method                                          string     {{ node.part_method }}
+{% if node.part_method == 'raid' %}
+d-i partman-auto-raid/recipe                                     string     {{ node.part_raid }}
+{% endif %}
+
 d-i partman-partitioning/choose_label                            select     gpt
 d-i partman-partitioning/confirm_write_new_label                 boolean    true
 # When in UEFI mode, ignore possible systems installed in BIOS/Legacy mode
