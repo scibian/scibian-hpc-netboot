@@ -1,3 +1,10 @@
+scibian-hpc-netboot (0.3sci9) scibian9; urgency=medium
+
+  * preseed: software RAID recipe support
+  * preseed: explicit disks selection support
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Tue, 25 Sep 2018 10:40:29 +0200
+
 scibian-hpc-netboot (0.2sci9) scibian9; urgency=medium
 
   * preseed: force re-install on UEFI systems
