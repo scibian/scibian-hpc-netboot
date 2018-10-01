@@ -104,7 +104,7 @@ clock-setup clock-setup/utc                  boolean    true
 clock-setup clock-setup/system-time-changed  boolean    false
 clock-setup clock-setup/hwclock-wait         boolean    false
 clock-setup clock-setup/ntp                  boolean    false
-tzsetup-udeb time/zone                       select     GMT
+tzsetup-udeb time/zone                       select     {{ time.timezone }}
 
 ### Base system installation
 bootstrap-base base-installer/kernel/image                  select   linux-image-amd64
