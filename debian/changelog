@@ -1,3 +1,9 @@
+scibian-hpc-netboot (0.6sci9) scibian9; urgency=medium
+
+  * preseed template: Add in late_command apt-get update 
+
+ -- Ibrahim M'MAKA <ibrahim-externe.m-maka@edf.fr>  Tue, 13 Nov 2018 17:32:46 +0100
+
 scibian-hpc-netboot (0.5sci9) scibian9; urgency=medium
 
   * preseed template: Add in late_command apt-get dist-upgrate
