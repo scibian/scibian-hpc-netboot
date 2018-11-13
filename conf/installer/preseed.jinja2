@@ -130,7 +130,7 @@ console-setup console-setup/fontsize-fb47                select     8x16
 console-setup console-setup/fontsize                     string     8x16
 
 ### Late command ###
-d-i preseed/late_command string env -u http_proxy wget http://{{node.diskinstall_server}}/disk/hpc-config.conf -O /target/etc/hpc-config.conf; /bin/in-target /usr/bin/env -u http_proxy hpc-config-apply -vvv;
+d-i preseed/late_command string env -u http_proxy wget http://{{node.diskinstall_server}}/disk/hpc-config.conf -O /target/etc/hpc-config.conf; /bin/in-target /usr/bin/env -u http_proxy hpc-config-apply -vvv; /bin/in-target /usr/bin/apt-get -o Dpkg::Options::="--force-confold" --force-yes -o Dpkg::Options="--force-confdef" -fuy  dist-upgrade;
 
 # Root password, either in clear text
 d-i passwd/root-password-crypted      password {{ passwords.root }}
