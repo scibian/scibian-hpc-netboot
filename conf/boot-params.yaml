@@ -16,6 +16,6 @@ defaults:
   console: ttyS1,115200n8
   locale: en_US
   language: English
-  keymap: en
+  keymap: us
   part_disks: auto
   part_method: lvm
