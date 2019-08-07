@@ -1,3 +1,9 @@
+scibian-hpc-netboot (0.7sci9) scibian9; urgency=medium
+
+  * Set default boot menu to kernel 4.9.0-9
+
+ -- MHamed Bouaziz <mhamed-externe.bouaziz@edf.fr>  Wed, 07 Aug 2019 10:38:53 +0200
+
 scibian-hpc-netboot (0.6sci9) scibian9; urgency=medium
 
   * preseed template: Add in late_command apt-get update 
