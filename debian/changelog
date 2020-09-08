@@ -1,3 +1,10 @@
+scibian-hpc-netboot (0.8sci9) scibian9; urgency=medium
+
+  * Set default boot menu to kernel 4.9.0-12
+  * Sort before load menu entries yaml files to ease overriding
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Tue, 08 Sep 2020 09:35:25 +0200
+
 scibian-hpc-netboot (0.7sci9) scibian9; urgency=medium
 
   * Set default boot menu to kernel 4.9.0-9
