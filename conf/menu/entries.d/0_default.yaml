@@ -3,8 +3,8 @@ scibian9:
   ram:
     main:
       label:  Run {{ os }} in RAM
-      initrd: initrd-4.9.0-9-amd64
-      kernel: vmlinuz-4.9.0-9-amd64
+      initrd: initrd-4.9.0-12-amd64
+      kernel: vmlinuz-4.9.0-12-amd64
       opts:   >
         initrd={{ initrd }}
         console={{ console }}
@@ -20,8 +20,8 @@ scibian9:
         {{ kernel_opts }}
     discovery:
       label:  Discover/Rescue system
-      initrd: initrd-4.9.0-9-amd64
-      kernel: vmlinuz-4.9.0-9-amd64
+      initrd: initrd-4.9.0-12-amd64
+      kernel: vmlinuz-4.9.0-12-amd64
       opts:   >
         initrd={{ initrd }}
         console={{ console }}
