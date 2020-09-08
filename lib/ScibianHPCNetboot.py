@@ -200,7 +200,7 @@ class NetbootAppMenu(NetbootAppGeneric):
     def read_conf(self):
         super(NetbootAppMenu, self).read_conf()
 
-        entries_files = glob.glob('/etc/scibian-hpc-netboot/menu/entries.d/*.yaml')
+        entries_files = sorted(glob.glob('/etc/scibian-hpc-netboot/menu/entries.d/*.yaml'))
 
         for entries_file in entries_files:
             y_entries = yaml.load(open(entries_file))
