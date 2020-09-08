@@ -1,3 +1,9 @@
+scibian-hpc-netboot (0.7sci8) scibian8; urgency=medium
+
+  * Sort before load menu entries yaml files to ease overriding
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Tue, 08 Sep 2020 09:37:25 +0200
+
 scibian-hpc-netboot (0.6sci8) scibian8; urgency=medium
 
   * Initian scibian8 release
