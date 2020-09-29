@@ -53,7 +53,7 @@ class MenuEntry(object):
         """Render entry_fields (which can be templated) with parameters from
            BootParams and self MenuEntry context."""
         self.label = self.render_entry_field(entry_fields['label'])
-        if entry_fields.has_key('dir'):
+        if 'dir' in entry_fields:
             self.dir = self.render_entry_field(entry_fields['dir'])
             if not self.dir.endswith('/'):
                 self.dir += '/'
@@ -131,7 +131,7 @@ class NodeBootParams(object):
             if nodeset != 'defaults' and \
                self.node in ClusterShell.NodeSet.expand(nodeset):
                  # override all nodes specific params
-                 for key, value in self.content[nodeset].iteritems():
+                 for key, value in self.content[nodeset].items():
                      xparams[key] = value
         return xparams
 
@@ -180,7 +180,7 @@ class NetbootAppGeneric(object):
                           self.node, dirpath, template, repr(context))
         jenv = Environment(loader=FileSystemLoader(dirpath),
                        trim_blocks=True)
-        print jenv.get_template(template).render(context)
+        print(jenv.get_template(template).render(context))
 
 
 class NetbootAppMenu(NetbootAppGeneric):
@@ -204,9 +204,9 @@ class NetbootAppMenu(NetbootAppGeneric):
 
         for entries_file in entries_files:
             y_entries = yaml.load(open(entries_file))
-            for os, medias in y_entries.iteritems():
-                for media, versions in medias.iteritems():
-                    for version, entry_fields in versions.iteritems():
+            for os, medias in y_entries.items():
+                for media, versions in medias.items():
+                    for version, entry_fields in versions.items():
                         entry = MenuEntry(self, os, media, version)
                         entry.fill(entry_fields)
                         # if the entry was already declared (w/ same name),
@@ -289,7 +289,7 @@ class NetbootAppPartitioner(NetbootAppGeneric):
                                  schema_path, self.node)
                 print('Content-Type: text/plain\n')
                 with open(schema_path, 'r') as f_schema:
-                    print f_schema.read()
+                    print(f_schema.read())
                 break
             else:
                 self.logger.debug("schema %s does not exist", schema_path)
