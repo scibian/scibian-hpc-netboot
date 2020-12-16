@@ -1,3 +1,9 @@
+scibian-hpc-netboot (0.8sci9-1) scibian9; urgency=medium
+
+  * Add a hpc-netboot sub-directory under /var/www/
+
+ -- Guillaume Ranquet <guillaume-externe.ranquet@edf.fr>  Wed, 16 Dec 2020 16:06:29 +0100
+
 scibian-hpc-netboot (0.8sci9) scibian9; urgency=medium
 
   * Set default boot menu to kernel 4.9.0-12
