@@ -1,3 +1,9 @@
+scibian-hpc-netboot (0.9sci9) scibian9; urgency=medium
+
+  * Fix dep to python2 version of clustershell lib
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Fri, 14 May 2021 16:45:54 +0200
+
 scibian-hpc-netboot (0.8sci9) scibian9; urgency=medium
 
   * Set default boot menu to kernel 4.9.0-12
