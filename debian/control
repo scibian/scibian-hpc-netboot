@@ -15,7 +15,7 @@ Description: Common files for netbooting Scibian HPC clusters nodes
 Depends:
  ${misc:Depends},
  apache2,
- clustershell,
+ python-clustershell,
  python-jinja2,
  python-yaml,
 
