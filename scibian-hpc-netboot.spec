@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:	scibian-hpc-netboot
-Version:	1.0
+Version:	1.1
 Release:	1%{?dist}.edf
 License:	GPLv2+
 Summary:	Suite of utilities for booting Scibian HPC clusters
@@ -91,6 +91,9 @@ nodename provided in parameter and a cYAML configuration file.
 
 
 %changelog
+
+* Wed Dec 11 2024 Saran KABA <saran-externe.kaba@edf.fr> - 1.1
+- Initial el9 release
 
 * Tue Sep 29 2020 Thomas HAMEL <thomas-t.hamel@edf.fr> - 1.0
 - Initial RPM release
